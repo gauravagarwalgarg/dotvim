@@ -51,6 +51,7 @@ vim +PlugUpdate +qa
 | Guide | Description |
 |-------|-------------|
 | [Architecture & Design](docs/architecture.md) | Plugin stack, design decisions, configuration philosophy |
+| [Themes & Appearance](docs/themes.md) | How to select, switch, and customize themes and transparency |
 | [Daily Usage](docs/daily-usage.md) | Keybindings, workflows, and the commands you'll use every day |
 | [Core Vim Hacks](docs/core-vim-hacks.md) | Registers, text objects, the dot command, motions — Vim fundamentals |
 | [Advanced Vim Hacks](docs/advanced-vim-hacks.md) | Macros, global commands, regex mastery, performance tricks |

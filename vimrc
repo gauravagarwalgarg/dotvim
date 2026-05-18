@@ -53,6 +53,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'gruvbox-community/gruvbox'
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'sainnhe/everforest'
+Plug 'lifepillar/vim-solarized8'
 Plug 'Yggdroot/indentLine'
 Plug 'machakann/vim-highlightedyank'
 
@@ -94,20 +95,45 @@ set belloff=all                 " Silence all bells
 syntax enable
 set termguicolors               " True color support
 set background=dark
-silent! colorscheme gruvbox     " Fallback gracefully if not installed yet
-let g:gruvbox_contrast_dark = 'medium'
-let g:gruvbox_invert_selection = 0
+
+" Theme selection — change this one line to switch themes:
+"   solarized8, gruvbox, catppuccin_mocha, everforest, newproggie
+let g:dotvim_theme = get(g:, 'dotvim_theme', 'solarized8')
+
+if g:dotvim_theme ==# 'gruvbox'
+  let g:gruvbox_contrast_dark = 'medium'
+  let g:gruvbox_invert_selection = 0
+elseif g:dotvim_theme ==# 'everforest'
+  let g:everforest_background = 'medium'
+elseif g:dotvim_theme ==# 'solarized8'
+  let g:solarized_extra_hi_groups = 1
+endif
+
+silent! execute 'colorscheme ' . g:dotvim_theme
+
+" Terminal transparency — let your terminal background bleed through.
+" Set to 0 to disable (use colorscheme's own background).
+let g:dotvim_transparent = get(g:, 'dotvim_transparent', 1)
+
+if g:dotvim_transparent
+  highlight Normal      guibg=NONE ctermbg=NONE
+  highlight NonText     guibg=NONE ctermbg=NONE
+  highlight LineNr      guibg=NONE ctermbg=NONE
+  highlight SignColumn  guibg=NONE ctermbg=NONE
+  highlight EndOfBuffer guibg=NONE ctermbg=NONE
+  highlight Folded      guibg=NONE ctermbg=NONE
+  highlight CursorLineNr guibg=NONE ctermbg=NONE
+endif
 
 set number                      " Absolute line numbers
-set relativenumber              " Relative line numbers (hybrid mode)
 set cursorline                  " Highlight current line
 set showmatch                   " Highlight matching brackets
 set laststatus=2                " Always show statusline
 set noshowmode                  " Airline handles mode display
 set cmdheight=1                 " Command line height
 
-" Color column at 80 and 120
-set colorcolumn=80,120
+" Color column at 125 characters
+set colorcolumn=125
 
 " Whitespace visualization
 set listchars=extends:»,precedes:«,tab:→\ ,trail:·,nbsp:␣
@@ -328,7 +354,16 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#hunks#enabled = 1
-let g:airline_theme = 'gruvbox'
+" Airline theme follows colorscheme
+if g:dotvim_theme ==# 'solarized8'
+  let g:airline_theme = 'solarized'
+elseif g:dotvim_theme ==# 'gruvbox'
+  let g:airline_theme = 'gruvbox'
+elseif g:dotvim_theme ==# 'everforest'
+  let g:airline_theme = 'everforest'
+else
+  let g:airline_theme = 'dark'
+endif
 
 " ─── CLANG-FORMAT ────────────────────────────────────────────────────────────
 let g:clang_format#auto_format = 1

@@ -96,7 +96,7 @@ syntax enable
 set termguicolors               " True color support
 set background=dark
 
-" Theme selection — change this one line to switch themes:
+" Theme selection change this one line to switch themes:
 "   solarized8, gruvbox, catppuccin_mocha, everforest, newproggie
 let g:dotvim_theme = get(g:, 'dotvim_theme', 'solarized8')
 
@@ -111,7 +111,7 @@ endif
 
 silent! execute 'colorscheme ' . g:dotvim_theme
 
-" Terminal transparency — let your terminal background bleed through.
+" Terminal transparency let your terminal background bleed through.
 " Set to 0 to disable (use colorscheme's own background).
 let g:dotvim_transparent = get(g:, 'dotvim_transparent', 1)
 

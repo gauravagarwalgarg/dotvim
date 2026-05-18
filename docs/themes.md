@@ -32,12 +32,12 @@ Save and reload (`:source $MYVIMRC` or `<leader>sv`).
 
 The theme system uses a single variable `g:dotvim_theme` that controls:
 
-1. **Colorscheme** — which color palette loads
-2. **Airline theme** — statusbar automatically matches
-3. **Plugin-specific settings** — contrast levels, highlight groups, etc.
+1. **Colorscheme** which color palette loads
+2. **Airline theme** statusbar automatically matches
+3. **Plugin-specific settings** contrast levels, highlight groups, etc.
 
 ```vim
-" In vimrc — this is all you need to change:
+" In vimrc this is all you need to change:
 let g:dotvim_theme = 'solarized8'
 
 " The rest is handled automatically:
@@ -80,9 +80,9 @@ set background=light
 ```
 
 Works well with:
-- `solarized8` — the iconic solarized light palette
-- `gruvbox` — warm light variant
-- `everforest` — soft green light
+- `solarized8` the iconic solarized light palette
+- `gruvbox` warm light variant
+- `everforest` soft green light
 
 Add this line **before** the `colorscheme` loads (or just put it near the top of your vimrc).
 
@@ -117,7 +117,7 @@ Press `<Tab>` repeatedly to cycle through options. Press `<Enter>` to apply.
 
 ## Adding Your Own Theme
 
-1. Install via vim-plug — add to the plugins section in vimrc:
+1. Install via vim-plug add to the plugins section in vimrc:
 
 ```vim
 Plug 'folke/tokyonight.nvim'    " Example: Tokyo Night

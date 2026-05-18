@@ -1,16 +1,16 @@
 # 🧙 Advanced Vim Hacks
 
-> Techniques that separate Vim users from Vim *wielders*. You know the grammar — now bend it.
+> Techniques that separate Vim users from Vim *wielders*. You know the grammar now bend it.
 
 ---
 
 ## 📌 Table of Contents
 
-- [Macros — Record Once, Replay Forever](#macros--record-once-replay-forever)
-- [Global Command — Batch Operations at Scale](#global-command--batch-operations-at-scale)
+- [Macros Record Once, Replay Forever](#macros--record-once-replay-forever)
+- [Global Command Batch Operations at Scale](#global-command--batch-operations-at-scale)
 - [Command-Line Sorcery](#command-line-sorcery)
-- [Search & Replace — Regex Mastery](#search--replace--regex-mastery)
-- [Visual Block Mode — Column Editing](#visual-block-mode--column-editing)
+- [Search & Replace Regex Mastery](#search--replace--regex-mastery)
+- [Visual Block Mode Column Editing](#visual-block-mode--column-editing)
 - [Quickfix & Location Lists](#quickfix--location-lists)
 - [Scripting & Expressions](#scripting--expressions)
 - [Multi-File Operations](#multi-file-operations)
@@ -19,7 +19,7 @@
 
 ---
 
-## Macros — Record Once, Replay Forever
+## Macros Record Once, Replay Forever
 
 Macros are Vim's automation primitive. Any sequence of keystrokes, recorded and replayed.
 
@@ -51,7 +51,7 @@ qqqq          " Clear register q (qqqq = record empty into q, then start fresh)
 j             " Move to next line (or n for next search match)
 @q            " Call itself
 q             " Stop recording
-@q            " Execute — runs until motion fails (end of file, no match)
+@q            " Execute runs until motion fails (end of file, no match)
 ```
 
 ### Edit a Macro
@@ -101,9 +101,9 @@ j0q
 
 ---
 
-## Global Command — Batch Operations at Scale
+## Global Command Batch Operations at Scale
 
-`:g/{pattern}/{command}` — the most powerful ex command. Executes `{command}` on every line matching `{pattern}`.
+`:g/{pattern}/{command}` the most powerful ex command. Executes `{command}` on every line matching `{pattern}`.
 
 ### Deletion Patterns
 
@@ -231,7 +231,7 @@ In the command-line window, you can edit previous commands with full Vim motions
 
 ---
 
-## Search & Replace — Regex Mastery
+## Search & Replace Regex Mastery
 
 ### Very Magic Mode
 
@@ -298,7 +298,7 @@ Use `\v` to avoid escaping everything:
 
 ---
 
-## Visual Block Mode — Column Editing
+## Visual Block Mode Column Editing
 
 ### Insert/Append to Multiple Lines
 
@@ -592,12 +592,12 @@ zL            " Scroll half screen right
 
 ## 🎯 The Advanced Mindset
 
-1. **Macros are programs** — Think of them as tiny scripts. Debug them by pasting (`"qp`), editing, and re-recording.
-2. **`:g` is your batch processor** — Any repetitive multi-line operation belongs in a `:g` command.
-3. **Quickfix is your results list** — Populate it (grep, make, LSP), then operate on it (`:cdo`).
-4. **Expressions are everywhere** — `<C-r>=`, `:s//.../\=`, `:%s//\=submatch()/` — Vim is a calculator too.
-5. **Profile before optimizing** — Don't guess what's slow. Measure it.
+1. **Macros are programs** Think of them as tiny scripts. Debug them by pasting (`"qp`), editing, and re-recording.
+2. **`:g` is your batch processor** Any repetitive multi-line operation belongs in a `:g` command.
+3. **Quickfix is your results list** Populate it (grep, make, LSP), then operate on it (`:cdo`).
+4. **Expressions are everywhere** `<C-r>=`, `:s//.../\=`, `:%s//\=submatch()/` Vim is a calculator too.
+5. **Profile before optimizing** Don't guess what's slow. Measure it.
 
 ---
 
-*"I've been using Vim for about 2 years now, mostly because I can't figure out how to exit it." — Everyone's first year. Your second year? You can't figure out how to exit VS Code.*
+*"I've been using Vim for about 2 years now, mostly because I can't figure out how to exit it." Everyone's first year. Your second year? You can't figure out how to exit VS Code.*

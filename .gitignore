@@ -1,2 +1,6 @@
 .netrwhist
 plugged/
+undodir/
+*.swp
+*.swo
+*~

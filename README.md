@@ -50,13 +50,20 @@ vim +PlugUpdate +qa
 
 | Guide | Description |
 |-------|-------------|
-| [Architecture & Design](docs/architecture.md) | Plugin stack, design decisions, configuration philosophy |
-| [Themes & Appearance](docs/themes.md) | How to select, switch, and customize themes and transparency |
-| [Daily Usage](docs/daily-usage.md) | Keybindings, workflows, and the commands you'll use every day |
-| [Core Vim Hacks](docs/core-vim-hacks.md) | Registers, text objects, the dot command, motions Vim fundamentals |
-| [Advanced Vim Hacks](docs/advanced-vim-hacks.md) | Macros, global commands, regex mastery, performance tricks |
-| [VS Code Features in Vim](docs/vscode-in-vim.md) | Complete mapping of VS Code features to Vim equivalents |
-| [Embedded Development](docs/embedded-workflow.md) | C/C++ with clangd, cross-compilation, GDB, serial monitors |
+| [Architecture & Design](docs/architecture.md) | Plugin stack, design decisions, why each plugin was chosen |
+| [Performance vs VS Code](docs/performance.md) | Startup, memory, benchmarks, honest comparison |
+| [Themes & Appearance](docs/themes.md) | How to select, switch, and customize themes |
+| [Daily Usage](docs/daily-usage.md) | Keybindings, workflows, daily commands |
+| [Core Vim Hacks](docs/core-vim-hacks.md) | Registers, text objects, dot command, motions |
+| [Advanced Vim Hacks](docs/advanced-vim-hacks.md) | Macros, global commands, regex mastery |
+| [VS Code Features in Vim](docs/vscode-in-vim.md) | Complete feature mapping |
+| [Embedded Development](docs/embedded-workflow.md) | C/C++, cross-compilation, GDB, serial |
+| [Keybindings Reference](docs/keybindings.md) | Complete shortcut table |
+| [Supported Languages](docs/languages.md) | 14+ languages with LSP matrix |
+| [Getting Started](docs/getting-started.md) | Installation and first steps |
+| [Learning Path](docs/learning-path.md) | Week-by-week structured guide |
+
+**Live docs site**: [gauravagarwalgarg.github.io/dotvim](https://gauravagarwalgarg.github.io/dotvim)
 
 ---
 

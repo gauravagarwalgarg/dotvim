@@ -47,6 +47,7 @@ nav:
   - Reference:
     - Keybindings: keybindings.md
     - Supported Languages: languages.md
+    - Performance vs VS Code: performance.md
 
 markdown_extensions:
   - pymdownx.highlight:

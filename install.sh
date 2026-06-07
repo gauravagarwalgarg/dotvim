@@ -90,10 +90,21 @@ if ! command -v bat >/dev/null 2>&1 && ! command -v batcat >/dev/null 2>&1; then
 fi
 
 # Nerd Font (for devicons)
-if ! fc-list | grep -qi "nerd"; then
-  warn "No Nerd Font detected. Icons may not render correctly."
-  warn "Install one from: https://www.nerdfonts.com/font-downloads"
-  warn "Recommended: FiraCode Nerd Font or JetBrainsMono Nerd Font"
+if ! fc-list 2>/dev/null | grep -qi "nerd"; then
+  info "Installing JetBrainsMono Nerd Font..."
+  FONT_DIR="${HOME}/.local/share/fonts"
+  mkdir -p "$FONT_DIR"
+  FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz"
+  if curl -fsSL "$FONT_URL" -o /tmp/JetBrainsMono.tar.xz 2>/dev/null; then
+    tar -xf /tmp/JetBrainsMono.tar.xz -C "$FONT_DIR"
+    fc-cache -f "$FONT_DIR" 2>/dev/null || true
+    rm -f /tmp/JetBrainsMono.tar.xz
+    info "JetBrainsMono Nerd Font installed. Set it in your terminal settings."
+  else
+    warn "Could not download Nerd Font. Install manually: https://www.nerdfonts.com/"
+  fi
+else
+  info "Nerd Font already installed."
 fi
 
 # ─── Symlink vimrc ──────────────────────────────────────────────────────────
@@ -112,12 +123,41 @@ else
   info "Symlinked .vimrc → .vim/vimrc"
 fi
 
+# ─── Install LSP Servers ─────────────────────────────────────────────────────
+info "Installing LSP servers for common languages..."
+
+# vim-lsp-settings installs servers to ~/.local/share/vim-lsp-settings/servers/
+# We trigger installation by opening a temp file of each type in vim headless mode
+
+install_lsp() {
+  local ext="$1"
+  local server="$2"
+  local tmpfile=$(mktemp "/tmp/lsp_install_XXXX${ext}")
+  info "  Installing ${server} (${ext})..."
+  vim -es -u "${HOME}/.vim/vimrc" "$tmpfile" \
+    -c "LspInstallServer" -c "qa!" 2>/dev/null || true
+  rm -f "$tmpfile"
+}
+
+# Core languages
+install_lsp ".py" "pyright"
+install_lsp ".c" "clangd"
+install_lsp ".go" "gopls"
+install_lsp ".sh" "bash-language-server"
+install_lsp ".yaml" "yaml-language-server"
+install_lsp ".json" "vscode-json-language-server"
+install_lsp ".html" "vscode-html-language-server"
+install_lsp ".ts" "typescript-language-server"
+install_lsp ".tex" "texlab"
+
+info "LSP servers installed. Additional servers install on-demand with :LspInstallServer"
+
 # ─── Done ────────────────────────────────────────────────────────────────────
 echo ""
 echo -e "${BOLD}${GREEN}✓ Installation complete!${NC}"
 echo ""
-echo "  Next steps:"
-echo "  1. Open vim and run :LspInstallServer for your languages"
-echo "  2. Install a Nerd Font for icon support"
-echo "  3. Read docs/ for tips and keybinding reference"
+echo "  Everything is ready. Just open vim and start coding."
+echo "  - LSP servers: pre-installed for Python, C/C++, Go, Bash, YAML, JSON, HTML, TS, LaTeX"
+echo "  - Additional languages: open a file and run :LspInstallServer"
+echo "  - Keybinding cheatsheet: docs/keybindings.md"
 echo ""

@@ -1,0 +1,175 @@
+name: Deploy Docs to GitHub Pages
+
+on:
+  push:
+    branches: [main, master]
+    paths: ['docs/**', '.github/workflows/pages.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build static site from docs
+        run: |
+          mkdir -p _site
+          # Generate index.html from docs
+          cat > _site/index.html << 'HTMLEOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>dotvim - Modern Vim from Ground Up</title>
+            <style>
+              :root { --bg: #1a1b26; --text: #c0caf5; --accent: #7aa2f7; --surface: #24283b; --muted: #565f89; }
+              * { box-sizing: border-box; margin: 0; padding: 0; }
+              body { font-family: 'JetBrains Mono', 'Fira Code', monospace; background: var(--bg); color: var(--text); line-height: 1.7; }
+              .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+              h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 0.5rem; }
+              h2 { font-size: 1.5rem; color: var(--accent); margin: 2rem 0 1rem; border-bottom: 1px solid var(--surface); padding-bottom: 0.5rem; }
+              h3 { font-size: 1.1rem; color: #bb9af7; margin: 1.5rem 0 0.5rem; }
+              p, li { color: var(--text); margin-bottom: 0.75rem; }
+              a { color: var(--accent); text-decoration: none; }
+              a:hover { text-decoration: underline; }
+              code { background: var(--surface); padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; }
+              pre { background: var(--surface); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+              pre code { background: none; padding: 0; }
+              .hero { text-align: center; padding: 3rem 0; }
+              .hero p { color: var(--muted); font-size: 1.1rem; }
+              .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+              .card { background: var(--surface); border-radius: 8px; padding: 1.2rem; border: 1px solid #2f3549; }
+              .card h3 { margin-top: 0; color: var(--accent); }
+              .card p { color: var(--muted); font-size: 0.9rem; margin: 0; }
+              .badge { display: inline-block; background: #2f3549; color: var(--accent); padding: 0.2em 0.6em; border-radius: 4px; font-size: 0.75rem; margin: 0.2em; }
+              table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+              th, td { padding: 0.6rem 0.8rem; text-align: left; border-bottom: 1px solid var(--surface); }
+              th { color: var(--accent); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+              .section { margin: 3rem 0; }
+              @media (max-width: 600px) { h1 { font-size: 1.8rem; } .grid { grid-template-columns: 1fr; } }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="hero">
+                <h1>🖥️ dotvim</h1>
+                <p>A Modern Vim Configuration From Ground Zero to IDE-Grade Development</p>
+                <p style="margin-top:1rem;"><a href="https://github.com/GauravAgarwalGarg/dotvim">GitHub</a></p>
+              </div>
+
+              <h2>Why Vim?</h2>
+              <div class="grid">
+                <div class="card"><h3>⚡ Speed</h3><p>Zero startup latency. No Electron. No 500MB RAM for a text editor.</p></div>
+                <div class="card"><h3>🔧 Low Setup Cost</h3><p>One git clone + one script. Works on any Linux/macOS/WSL machine.</p></div>
+                <div class="card"><h3>🧠 Muscle Memory</h3><p>Once learned, editing speed compounds forever. Motions + operators = infinite combinations.</p></div>
+                <div class="card"><h3>🌐 Everywhere</h3><p>SSH into any server, edit instantly. No GUI required. Works in tmux, containers, CI.</p></div>
+                <div class="card"><h3>💡 IDE Features</h3><p>LSP, autocomplete, go-to-definition, rename, diagnostics all via language servers.</p></div>
+                <div class="card"><h3>🎨 Customizable</h3><p>Every keystroke, every color, every behavior yours to define. No corporate decisions.</p></div>
+              </div>
+
+              <h2>Supported Languages</h2>
+              <p>Full LSP + syntax + formatting for all of these out of the box:</p>
+              <p>
+                <span class="badge">C/C++ (clangd)</span>
+                <span class="badge">Python (pyright)</span>
+                <span class="badge">Go (gopls)</span>
+                <span class="badge">Rust (rust-analyzer)</span>
+                <span class="badge">JavaScript/TypeScript (ts_ls)</span>
+                <span class="badge">HTML/CSS</span>
+                <span class="badge">Bash/Shell</span>
+                <span class="badge">YAML/JSON/XML</span>
+                <span class="badge">LaTeX (texlab)</span>
+                <span class="badge">MATLAB</span>
+                <span class="badge">Dockerfile</span>
+                <span class="badge">Terraform</span>
+                <span class="badge">CMake</span>
+                <span class="badge">BitBake (Yocto)</span>
+              </p>
+
+              <h2>Quick Start</h2>
+              <pre><code># Install
+cd ~ && git clone https://github.com/GauravAgarwalGarg/dotvim.git .vim
+cd ~/.vim && ./install.sh
+
+# Open any file LSP installs automatically
+vim main.cpp    # → :LspInstallServer → clangd
+vim app.py      # → :LspInstallServer → pyright
+vim main.go     # → :LspInstallServer → gopls</code></pre>
+
+              <h2>Key Bindings (VS Code Equivalents)</h2>
+              <table>
+                <tr><th>Action</th><th>Vim (dotvim)</th><th>VS Code</th></tr>
+                <tr><td>Find file</td><td><code>Ctrl+P</code></td><td>Ctrl+P</td></tr>
+                <tr><td>Search in files</td><td><code>Space fg</code></td><td>Ctrl+Shift+F</td></tr>
+                <tr><td>Go to definition</td><td><code>gd</code></td><td>F12</td></tr>
+                <tr><td>Find references</td><td><code>gr</code></td><td>Shift+F12</td></tr>
+                <tr><td>Rename symbol</td><td><code>Space rn</code></td><td>F2</td></tr>
+                <tr><td>Code actions</td><td><code>Space ca</code></td><td>Ctrl+.</td></tr>
+                <tr><td>Toggle terminal</td><td><code>Space t</code></td><td>Ctrl+`</td></tr>
+                <tr><td>File explorer</td><td><code>Space e</code></td><td>Ctrl+Shift+E</td></tr>
+                <tr><td>Git status</td><td><code>Space gs</code></td><td>Ctrl+Shift+G</td></tr>
+                <tr><td>Format document</td><td><code>Space cf</code></td><td>Shift+Alt+F</td></tr>
+                <tr><td>Next diagnostic</td><td><code>]d</code></td><td>F8</td></tr>
+                <tr><td>Hover docs</td><td><code>K</code></td><td>Mouse hover</td></tr>
+              </table>
+
+              <h2>Where Vim Triumphs</h2>
+              <div class="grid">
+                <div class="card"><h3>Remote Development</h3><p>SSH + vim = full IDE. No VS Code Remote, no port forwarding, no latency.</p></div>
+                <div class="card"><h3>Large Files</h3><p>Open 100MB log files instantly. VS Code chokes. Vim doesn't.</p></div>
+                <div class="card"><h3>Batch Editing</h3><p>Macros + :g/pattern/cmd = transform thousands of lines in seconds.</p></div>
+                <div class="card"><h3>Containers & CI</h3><p>Edit config in a running container. No volume mounts, no rebuilds.</p></div>
+                <div class="card"><h3>Resource Usage</h3><p>~30MB RAM vs 500MB+. Runs on a Raspberry Pi. Runs on a 2005 laptop.</p></div>
+                <div class="card"><h3>Stability</h3><p>No updates breaking your workflow. No telemetry. No "Restart to update" popups.</p></div>
+              </div>
+
+              <h2>Documentation</h2>
+              <div class="grid">
+                <div class="card"><h3><a href="https://github.com/GauravAgarwalGarg/dotvim/blob/main/docs/architecture.md">Architecture</a></h3><p>Plugin stack, design decisions, philosophy</p></div>
+                <div class="card"><h3><a href="https://github.com/GauravAgarwalGarg/dotvim/blob/main/docs/daily-usage.md">Daily Usage</a></h3><p>Keybindings and workflows</p></div>
+                <div class="card"><h3><a href="https://github.com/GauravAgarwalGarg/dotvim/blob/main/docs/core-vim-hacks.md">Core Vim</a></h3><p>Registers, text objects, motions</p></div>
+                <div class="card"><h3><a href="https://github.com/GauravAgarwalGarg/dotvim/blob/main/docs/advanced-vim-hacks.md">Advanced</a></h3><p>Macros, :g, regex, performance</p></div>
+                <div class="card"><h3><a href="https://github.com/GauravAgarwalGarg/dotvim/blob/main/docs/vscode-in-vim.md">VS Code → Vim</a></h3><p>Feature mapping guide</p></div>
+                <div class="card"><h3><a href="https://github.com/GauravAgarwalGarg/dotvim/blob/main/docs/embedded-workflow.md">Embedded Dev</a></h3><p>C/C++, cross-compile, GDB</p></div>
+              </div>
+
+              <h2>Learning Path</h2>
+              <ol style="padding-left:1.5rem;">
+                <li><strong>Week 1</strong>: <code>vimtutor</code> → motions (hjkl, w, b, e, f, t) → insert modes (i, a, o, I, A, O)</li>
+                <li><strong>Week 2</strong>: Operators (d, c, y) + text objects (iw, i", a{) → the dot command</li>
+                <li><strong>Week 3</strong>: Visual mode, registers, marks, jumps (Ctrl-O, Ctrl-I)</li>
+                <li><strong>Week 4</strong>: Splits, buffers, tabs → FZF (Ctrl+P) → NERDTree</li>
+                <li><strong>Month 2</strong>: LSP (go-to-def, rename, diagnostics) → Git (fugitive) → Terminal (floaterm)</li>
+                <li><strong>Month 3</strong>: Macros, :g/pattern/, :s/regex/, custom mappings, snippets</li>
+                <li><strong>Ongoing</strong>: Read :help for one new command per day</li>
+              </ol>
+
+              <div class="section" style="text-align:center;color:var(--muted);margin-top:4rem;">
+                <p><em>"Give me six hours to chop down a tree and I will spend the first four sharpening the axe."</em></p>
+                <p style="margin-top:1rem;">Built by <a href="https://github.com/GauravAgarwalGarg">Gaurav Agarwal</a></p>
+              </div>
+            </div>
+          </body>
+          </html>
+          HTMLEOF
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

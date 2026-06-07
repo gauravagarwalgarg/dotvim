@@ -7,14 +7,14 @@
 ## 📌 Table of Contents
 
 - [The Vim Grammar](#the-vim-grammar)
-- [Motions — How You Move](#motions--how-you-move)
-- [Text Objects — Surgical Precision](#text-objects--surgical-precision)
-- [The Dot Command — Repeat Anything](#the-dot-command--repeat-anything)
-- [Registers — 48 Clipboards](#registers--48-clipboards)
-- [Marks — Teleportation Points](#marks--teleportation-points)
-- [Visual Mode — Selection Done Right](#visual-mode--selection-done-right)
-- [Search — Find Anything Instantly](#search--find-anything-instantly)
-- [Undo & Redo — Fearless Editing](#undo--redo--fearless-editing)
+- [Motions How You Move](#motions--how-you-move)
+- [Text Objects Surgical Precision](#text-objects--surgical-precision)
+- [The Dot Command Repeat Anything](#the-dot-command--repeat-anything)
+- [Registers 48 Clipboards](#registers--48-clipboards)
+- [Marks Teleportation Points](#marks--teleportation-points)
+- [Visual Mode Selection Done Right](#visual-mode--selection-done-right)
+- [Search Find Anything Instantly](#search--find-anything-instantly)
+- [Undo & Redo Fearless Editing](#undo--redo--fearless-editing)
 
 ---
 
@@ -54,7 +54,7 @@ Every operator works with every motion and every text object. Learn them indepen
 
 ---
 
-## Motions — How You Move
+## Motions How You Move
 
 ### Character-Level
 
@@ -131,7 +131,7 @@ gUw       " Uppercase next word
 
 ---
 
-## Text Objects — Surgical Precision
+## Text Objects Surgical Precision
 
 Text objects define a region of text. They come in two flavors:
 - `i` = **inner** (inside the delimiters)
@@ -190,7 +190,7 @@ yi{                   " Copy everything inside the braces
 
 ---
 
-## The Dot Command — Repeat Anything
+## The Dot Command Repeat Anything
 
 `.` repeats your last **change**. The key insight: design your edits to be dot-repeatable.
 
@@ -205,7 +205,7 @@ n                     " Skip one (just move, don't change)
 .                     " Change this one
 ```
 
-`cgn` is magical because it's a single change operation that includes the search — making `.` repeat both the find and the replace.
+`cgn` is magical because it's a single change operation that includes the search making `.` repeat both the find and the replace.
 
 ### Pattern 2: Append + Move + Repeat
 
@@ -227,25 +227,25 @@ w.                    " And again
 
 A change is everything from entering insert mode to leaving it, OR a single normal-mode command that modifies text:
 
-- `dd` — one change (delete line)
-- `iHello World<Esc>` — one change (insert text)
-- `ciwreplacement<Esc>` — one change (change word)
-- `3x` — one change (delete 3 chars)
-- `>ap` — one change (indent paragraph)
+- `dd` one change (delete line)
+- `iHello World<Esc>` one change (insert text)
+- `ciwreplacement<Esc>` one change (change word)
+- `3x` one change (delete 3 chars)
+- `>ap` one change (indent paragraph)
 
 ### Anti-Pattern: Breaking Repeatability
 
 ```vim
 " BAD: Multiple separate changes
-i(<Esc>ea)<Esc>       " Two changes — dot only repeats the second
+i(<Esc>ea)<Esc>       " Two changes dot only repeats the second
 
 " GOOD: One atomic change
-ysiw)                 " One surround operation — dot repeats it all
+ysiw)                 " One surround operation dot repeats it all
 ```
 
 ---
 
-## Registers — 48 Clipboards
+## Registers 48 Clipboards
 
 Every delete, yank, and change goes into a register. You have dozens of them.
 
@@ -299,9 +299,9 @@ Every delete, yank, and change goes into a register. You have dozens of them.
 
 ### The Yank/Delete Problem (Solved)
 
-The classic frustration: you yank text, delete something, then paste — and get the deleted text instead.
+The classic frustration: you yank text, delete something, then paste and get the deleted text instead.
 
-**Solution 1**: Use `"0p` — register 0 always holds the last yank.
+**Solution 1**: Use `"0p` register 0 always holds the last yank.
 
 **Solution 2**: This config maps visual-mode paste to not overwrite:
 ```vim
@@ -310,9 +310,9 @@ vnoremap p "_dP   " Paste over selection without losing yanked text
 
 ---
 
-## Marks — Teleportation Points
+## Marks Teleportation Points
 
-### Local Marks (a-z) — Per Buffer
+### Local Marks (a-z) Per Buffer
 
 ```vim
 ma            " Set mark 'a' at cursor
@@ -320,7 +320,7 @@ ma            " Set mark 'a' at cursor
 `a            " Jump to exact column of mark 'a'
 ```
 
-### Global Marks (A-Z) — Cross-File
+### Global Marks (A-Z) Cross-File
 
 ```vim
 mA            " Set global mark 'A' (remembers file + position)
@@ -328,10 +328,10 @@ mA            " Set global mark 'A' (remembers file + position)
 ```
 
 **Strategy**: Use global marks for your working set:
-- `mM` — Main file you're editing
-- `mT` — Test file
-- `mH` — Header file
-- `mC` — Config file
+- `mM` Main file you're editing
+- `mT` Test file
+- `mH` Header file
+- `mC` Config file
 
 Jump between them instantly: `'M`, `'T`, `'H`, `'C`.
 
@@ -357,7 +357,7 @@ Every `gd`, `/search`, `gg`, `G`, `'mark` adds to the jump list. `<C-o>` is your
 
 ---
 
-## Visual Mode — Selection Done Right
+## Visual Mode Selection Done Right
 
 ### Three Flavors
 
@@ -404,7 +404,7 @@ gv            " Reselect the last visual selection
 
 ---
 
-## Search — Find Anything Instantly
+## Search Find Anything Instantly
 
 ### Basic Search
 
@@ -446,7 +446,7 @@ gv            " Reselect the last visual selection
 
 ---
 
-## Undo & Redo — Fearless Editing
+## Undo & Redo Fearless Editing
 
 ### Basic
 
@@ -466,7 +466,7 @@ Vim's undo is a **tree**, not a linear stack. Every branch is preserved.
 
 ### Persistent Undo
 
-This config enables persistent undo — your undo history survives Vim restarts. Close Vim, reopen the file next week, and `u` still works back to your first edit.
+This config enables persistent undo your undo history survives Vim restarts. Close Vim, reopen the file next week, and `u` still works back to your first edit.
 
 ### Time Travel
 
@@ -480,12 +480,12 @@ This config enables persistent undo — your undo history survives Vim restarts.
 
 ## 🎯 The Core Vim Mindset
 
-1. **Think in text objects** — Don't "move cursor, select, delete." Think `dap` (delete a paragraph).
-2. **Compose, don't memorize** — `d` + `iw` = delete inner word. `c` + `i"` = change inside quotes. Same grammar, infinite combinations.
-3. **Make it repeatable** — Design edits so `.` does what you want next.
-4. **Use counts** — `5dd` not `dd dd dd dd dd`. `3w` not `w w w`.
-5. **Stay in normal mode** — Insert mode is for inserting text. Everything else happens in normal mode.
-6. **Trust the undo tree** — Be bold. Experiment. `u` always has your back.
+1. **Think in text objects** Don't "move cursor, select, delete." Think `dap` (delete a paragraph).
+2. **Compose, don't memorize** `d` + `iw` = delete inner word. `c` + `i"` = change inside quotes. Same grammar, infinite combinations.
+3. **Make it repeatable** Design edits so `.` does what you want next.
+4. **Use counts** `5dd` not `dd dd dd dd dd`. `3w` not `w w w`.
+5. **Stay in normal mode** Insert mode is for inserting text. Everything else happens in normal mode.
+6. **Trust the undo tree** Be bold. Experiment. `u` always has your back.
 
 ---
 

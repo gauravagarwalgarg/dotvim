@@ -26,8 +26,8 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
-" --- File Explorer ---
-Plug 'preservim/nerdtree'
+" --- File Explorer (lazy: opens on demand) ---
+Plug 'preservim/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'ryanoasis/vim-devicons'
 
 " --- Git Integration ---
@@ -66,11 +66,11 @@ Plug 'honza/vim-snippets'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 
-" --- Utilities ---
-Plug 'mbbill/undotree'
+" --- Utilities (lazy-loaded) ---
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'tpope/vim-dispatch'
 Plug 'skywind3000/asyncrun.vim'
-Plug 'voldikss/vim-floaterm'
+Plug 'voldikss/vim-floaterm', { 'on': ['FloatermToggle', 'FloatermNew', 'FloatermNext'] }
 
 call plug#end()
 
@@ -317,10 +317,26 @@ let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_signs_enabled = 1
 let g:lsp_diagnostics_highlights_enabled = 1
-let g:lsp_diagnostics_virtual_text_enabled = 1
+let g:lsp_diagnostics_virtual_text_enabled = 0  " Disabled: slows scrolling on large files
 let g:lsp_document_highlight_enabled = 1
 let g:lsp_fold_enabled = 0
 let g:lsp_semantic_enabled = 1
+let g:lsp_inlay_hints_enabled = 1
+
+" Supported language servers (auto-installed via :LspInstallServer):
+"   C/C++      → clangd
+"   Python     → pyright / pylsp
+"   Go         → gopls
+"   Rust       → rust-analyzer
+"   JavaScript → typescript-language-server
+"   HTML/CSS   → vscode-html-language-server / vscode-css-language-server
+"   Bash       → bash-language-server
+"   YAML       → yaml-language-server
+"   JSON       → vscode-json-language-server
+"   LaTeX      → texlab
+"   Dockerfile → dockerfile-language-server
+"   Terraform  → terraform-ls
+"   CMake      → cmake-language-server
 
 " ─── ASYNCOMPLETE ────────────────────────────────────────────────────────────
 " Tab completion (like VS Code Tab to accept)
@@ -366,8 +382,14 @@ else
 endif
 
 " ─── CLANG-FORMAT ────────────────────────────────────────────────────────────
-let g:clang_format#auto_format = 1
+" Auto-format only on files < 10000 lines (large files are slow)
+let g:clang_format#auto_format = 0
 let g:clang_format#detect_style_file = 1
+augroup ClangFormatOnSave
+  autocmd!
+  autocmd BufWritePre *.c,*.cpp,*.h,*.hpp
+    \ if line('$') < 10000 | ClangFormat | endif
+augroup END
 
 " ─── UNDOTREE ────────────────────────────────────────────────────────────────
 nnoremap <leader>u :UndotreeToggle<CR>
@@ -447,7 +469,17 @@ augroup filetypedetect
   au BufRead,BufNewFile *.bb,*.bbappend,*.bbclass setfiletype bitbake
   au BufRead,BufNewFile Dockerfile* setfiletype dockerfile
   au BufRead,BufNewFile Jenkinsfile setfiletype groovy
-  au BufRead,BufNewFile *.tf setfiletype terraform
+  au BufRead,BufNewFile *.tf,*.tfvars setfiletype terraform
+  au BufRead,BufNewFile *.m setfiletype matlab
+  au BufRead,BufNewFile *.astro setfiletype astro
+  au BufRead,BufNewFile *.tsx setfiletype typescriptreact
+  au BufRead,BufNewFile *.jsx setfiletype javascriptreact
+  au BufRead,BufNewFile *.toml setfiletype toml
+  au BufRead,BufNewFile *.conf setfiletype conf
+  au BufRead,BufNewFile *.service,*.timer,*.socket setfiletype systemd
+  au BufRead,BufNewFile Vagrantfile setfiletype ruby
+  au BufRead,BufNewFile Makefile* setlocal noexpandtab
+  au BufRead,BufNewFile *.proto setfiletype proto
 augroup END
 
 " ─── ABBREVIATIONS ───────────────────────────────────────────────────────────

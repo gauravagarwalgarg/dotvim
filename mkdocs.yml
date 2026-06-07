@@ -1,0 +1,61 @@
+site_name: dotvim
+site_description: A Modern Vim Configuration From Ground Zero to IDE-Grade Development
+site_url: https://gauravagarwalgarg.github.io/dotvim
+repo_url: https://github.com/GauravAgarwalGarg/dotvim
+repo_name: GauravAgarwalGarg/dotvim
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started.md
+    - Learning Path: learning-path.md
+  - Guides:
+    - Daily Usage: daily-usage.md
+    - Core Vim Hacks: core-vim-hacks.md
+    - Advanced Vim Hacks: advanced-vim-hacks.md
+    - VS Code → Vim: vscode-in-vim.md
+  - Development:
+    - Architecture: architecture.md
+    - Embedded Workflow: embedded-workflow.md
+    - Themes: themes.md
+  - Reference:
+    - Keybindings: keybindings.md
+    - Supported Languages: languages.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - tables
+  - toc:
+      permalink: true
